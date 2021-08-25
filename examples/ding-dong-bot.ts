@@ -39,7 +39,7 @@ function onLogin(user: Contact) {
 
 const bot = new Wechaty({
   name: 'ding-dong-bot',
-  puppet: 'wechaty-puppet-wechat'
+  puppet: 'wechaty-puppet-wechat',
   /**
    * How to set Wechaty Puppet Provider:
    *
@@ -64,7 +64,12 @@ const bot = new Wechaty({
   // puppetOptions: {
   //   token: 'xxx',
   // }
-})
+  puppetOptions: {
+    launchOptions: {
+      ignoreDefaultArgs: ['--disable-extensions'],
+    },
+  }
+  })
 
 bot.on('scan', onScan)
 bot.on('login', onLogin)

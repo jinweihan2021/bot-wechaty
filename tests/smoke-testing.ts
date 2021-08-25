@@ -17,8 +17,13 @@ function getBotList () {
     puppet: 'wechaty-puppet-wechat' as const,
     puppetOptions: {
       launchOptions: {
-        ignoreDefaultArgs: ['--disable-extensions'],
-      },
+        ignoreDefaultArgs: [
+          '--disable-extensions'
+        ],
+      }, args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
     },
   }
 
