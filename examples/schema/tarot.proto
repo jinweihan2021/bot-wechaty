@@ -1,0 +1,21 @@
+syntax = "proto3";
+package tarot;
+
+message TarotRepo {
+  // major: 22
+  repeated Card majors = 1;
+  // minor: 14 * 4
+  repeated MinorCardGroup minors = 11;
+}
+
+message Card {
+  string index = 10;
+  string name = 20;
+  string meaning = 30;
+}
+
+message MinorCardGroup {
+  string group_name = 10;
+  string group_meaning = 20;
+  repeated Card cards = 30;
+}
