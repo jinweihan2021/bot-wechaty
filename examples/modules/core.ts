@@ -1,5 +1,5 @@
 import {FileBox, Message} from "wechaty";
-import {addRecord, getAskRecordIn24Hours, OnQueried, resetRecord} from "./db";
+import {addRecord, getAskRecordIn24Hours, getAllShiningWords, getShiningWordsBySpeaker, addShiningWords, OnQueried, resetRecord, resetRecordShiningWords} from "./db";
 import {
   getBazi,
   getRandomSixGuaString,
@@ -55,7 +55,50 @@ async function onInstantMessageType(msg: Message, type: string, quota: number, c
   }
 }
 
+const MENTION_LINE_BREAK = '<br/>- - - - - - - - - - - - - - -<br/>';
+
 export async function onCoreMessage(msg: Message) {
+  console.log(msg.text())
+  if (msg.text().endsWith(MENTION_LINE_BREAK + '金句')) {
+    const text = await msg.text()
+    const mentionedText = text.substr(0, text.indexOf(MENTION_LINE_BREAK))
+    console.log(msg.wechaty.userSelf().id)
+    console.log(msg.talker().id)
+    console.log(mentionedText)
+    addShiningWords(msg.wechaty.userSelf().id, msg.talker().id, mentionedText)
+    return
+  }
+
+  if (msg.text() == '回忆金句') {
+    let onQueried: OnQueried = async function (rows: any[]) {
+      if (rows.length > 0) {
+        var words = ""
+        for (const shiningWords of rows) {
+          words = words.concat(shiningWords.words)
+          words = words.concat("\n")
+        }
+        console.log(words)
+        await msg.say('@' + msg.talker().name() + '\n您记录的金句:\n' + words)
+      } else {
+        return
+      }
+    }
+
+    const mentioned = await msg.mentionList()
+    if(mentioned.length > 0) {
+      getAllShiningWords(msg.wechaty.userSelf().id, onQueried)
+    } else {
+      getShiningWordsBySpeaker(msg.wechaty.userSelf().id, msg.talker().id, onQueried)
+    }
+    return
+  }
+
+  if (msg.text() == '#重置金句') {
+    resetRecordShiningWords(msg.wechaty.userSelf().id)
+    return
+  }
+
+  return
   if (msg.text().includes('[来自Bot]') || msg.text().includes('- - - - - - - - - - - - - - -')) {
     return
   }
