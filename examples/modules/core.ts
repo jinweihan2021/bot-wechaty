@@ -98,7 +98,6 @@ export async function onCoreMessage(msg: Message) {
     return
   }
 
-  return
   if (msg.text().includes('[来自Bot]') || msg.text().includes('- - - - - - - - - - - - - - -')) {
     return
   }
