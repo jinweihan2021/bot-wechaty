@@ -9,8 +9,8 @@ import {
   log,
 } from 'wechaty'
 
-import {generate} from 'qrcode-terminal'
-import {onCoreMessage} from "./modules/core";
+import qrcodeTerminal from 'qrcode-terminal'
+import { onCoreMessage } from './modules/core';
 
 require('dotenv').config()
 
@@ -20,7 +20,9 @@ function onLogout(user: Contact) {
 
 function onScan(qrcode: string, status: ScanStatus) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
-    generate(qrcode, {small: true})  // show qrcode on console
+    // eslint-disable-next-line no-console
+    console.log(qrcode)
+    qrcodeTerminal.generate(qrcode, { small: true })  // show qrcode on console
 
     const qrcodeImageUrl = [
       'https://wechaty.js.org/qrcode/',

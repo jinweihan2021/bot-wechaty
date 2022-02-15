@@ -40,7 +40,7 @@ async function onInstantMessageType(msg: Message, type: string, quota: number, c
             console.log(fileBox)
             await msg.say(fileBox.name)
           } catch (e) {
-            console.log(e.message)
+            console.log(e)
           }
         } else {
           await msg.say('@' + msg.talker().name() + '\n[来自Bot] \n' + answer)
