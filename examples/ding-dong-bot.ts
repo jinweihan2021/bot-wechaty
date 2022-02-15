@@ -10,15 +10,15 @@ import {
 } from 'wechaty'
 
 import qrcodeTerminal from 'qrcode-terminal'
-import { onCoreMessage } from './modules/core';
+import { onCoreMessage } from './modules/core'
 
 require('dotenv').config()
 
-function onLogout(user: Contact) {
+function onLogout (user: Contact) {
   log.info('StarterBot', '%s logout', user)
 }
 
-function onScan(qrcode: string, status: ScanStatus) {
+function onScan (qrcode: string, status: ScanStatus) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
     // eslint-disable-next-line no-console
     console.log(qrcode)
@@ -35,7 +35,7 @@ function onScan(qrcode: string, status: ScanStatus) {
   }
 }
 
-function onLogin(user: Contact) {
+function onLogin (user: Contact) {
   log.info('StarterBot', '%s login', user)
 }
 
@@ -70,8 +70,8 @@ const bot = new Wechaty({
     launchOptions: {
       ignoreDefaultArgs: ['--disable-extensions'],
     },
-  }
-  })
+  },
+})
 
 bot.on('scan', onScan)
 bot.on('login', onLogin)
